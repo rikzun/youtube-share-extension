@@ -1,0 +1,55 @@
+body {
+    margin: 0;
+    width: 300px;
+    border: unset;
+    background-color: #0f0f0f;
+    color: white;
+    font-family: Roboto,Arial,sans-serif;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    background-color: rgba(255, 255, 255, 0.1);
+    font-size: 22px;
+    padding-inline: 16px;
+    padding-block: 6px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.github-logo {
+    width: 20px;
+    height: 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    padding-inline: 16px;
+    padding-block: 10px;
+}
+
+.field {
+    display: flex;
+    align-items: center;
+    padding-bottom: 12px
+}
+
+.field > input {
+    margin-right: 16px;
+}
+
+.field > .error {
+    color: rgb(255, 0, 51);
+    font-size: 12px;
+    padding-left: 6px;
+}
+
+.field:last-child {
+    padding-bottom: unset;
+}
