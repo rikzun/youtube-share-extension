@@ -35,7 +35,7 @@ export function App() {
             <div class="title">
                 Youtube Share
 
-                <a href="https://example.com" target="_blank">
+                <a href="https://github.com/rikzun/youtube-share-extension" target="_blank">
                     <img
                         class="github-logo"
                         src={githubLogoUrl}
