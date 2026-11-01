@@ -9,7 +9,10 @@ export default defineConfig({
 
         browser_specific_settings: {
             gecko: {
-                id: "rik.zunqq@gmail.com"
+                id: "rik.zunqq@gmail.com",
+                data_collection_permissions: {
+                    required: ["none"]
+                }
             }
         }
     }
