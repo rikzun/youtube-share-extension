@@ -1,34 +1,47 @@
 import "./App.css"
-import githubLogoUrl from "/github.svg?url"
+import githubLogoUrl from "@/public/github.svg?url"
 import { createSignal } from "solid-js"
 import { Checkbox } from "@/components/Checkbox"
 import { Storage, type ErrorType } from "@/storage"
 
 export function App() {
-    const [keepTimestamp, setKeepTimestamp] = createSignal(true)
-    const [keepList, setKeepList] = createSignal(false)
-    const [replaceShare, setReplaceShare] = createSignal(true)
-    const [errors, setErrors] = createSignal<Set<ErrorType>>(new Set())
+    const [state, setState] = createStore({
+        keepTimestamp: true,
+        keepList: false,
+        keepShareFeature: false,
+        replaceShare: true,
+        errors: new Set<ErrorType>()
+    })
 
     onMount(async() => {
-        const keepTimestampStorageValue = await Storage.keepTimestamp.getValue()
-        setKeepTimestamp(keepTimestampStorageValue)
+        const [
+            keepTimestamp,
+            keepList,
+            keepShareFeature,
+            replaceShare,
+            errors
+        ] = await Promise.all([
+            Storage.keepTimestamp.getValue(),
+            Storage.keepList.getValue(),
+            Storage.keepShareFeature.getValue(),
+            Storage.replaceShare.getValue(),
+            Storage.errors.getValue()
+        ])
 
-        const keepListStorageValue = await Storage.keepList.getValue()
-        setKeepList(keepListStorageValue)
-
-        const replaceShareValue = await Storage.replaceShare.getValue()
-        setReplaceShare(replaceShareValue)
-
-        const errorsValue = await Storage.errors.getValue()
-        setErrors(errorsValue)
+        setState({
+            keepTimestamp,
+            keepList,
+            keepShareFeature,
+            replaceShare,
+            errors
+        })
 
         Storage.errors.watch((v) => {
-            setErrors(v)
+            setState("errors", v)
         })
     })
 
-    const haseShareButtonError = () => errors().has("share-button")
+    const haseShareButtonError = () => state.errors.has("share-button")
 
     return (
         <>
@@ -47,9 +60,9 @@ export function App() {
             <div class="container">
                 <div class="field">
                     <Checkbox
-                        checked={keepTimestamp()}
+                        checked={state.keepTimestamp}
                         onChange={(v) => {
-                            setKeepTimestamp(v)
+                            setState("keepTimestamp", v)
                             Storage.keepTimestamp.setValue(v)
                         }}
                     />
@@ -59,9 +72,9 @@ export function App() {
 
                 <div class="field">
                     <Checkbox
-                        checked={keepList()}
+                        checked={state.keepList}
                         onChange={(v) => {
-                            setKeepList(v)
+                            setState("keepList", v)
                             Storage.keepList.setValue(v)
                         }}
                     />
@@ -71,9 +84,21 @@ export function App() {
 
                 <div class="field">
                     <Checkbox
-                        checked={replaceShare()}
+                        checked={state.keepShareFeature}
                         onChange={(v) => {
-                            setReplaceShare(v)
+                            setState("keepShareFeature", v)
+                            Storage.keepShareFeature.setValue(v)
+                        }}
+                    />
+                    
+                    <span>Keep Share Feature</span>
+                </div>
+
+                <div class="field">
+                    <Checkbox
+                        checked={state.replaceShare}
+                        onChange={(v) => {
+                            setState("replaceShare", v)
                             Storage.replaceShare.setValue(v)
                         }}
                     />

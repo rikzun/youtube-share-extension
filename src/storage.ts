@@ -10,6 +10,11 @@ export namespace Storage {
         { defaultValue: false }
     )
 
+    export const keepShareFeature = storage.defineItem<boolean>(
+        "sync:keepShareFeature",
+        { defaultValue: false }
+    )
+
     export const replaceShare = storage.defineItem<boolean>(
         "sync:replaceShare",
         { defaultValue: true }
